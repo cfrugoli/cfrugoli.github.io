@@ -6,7 +6,7 @@
     <script src="script.js" type="module"></script>
   </head>
   <body>
-    <h1><center>Effect Name Here</center></h1>
+    <h1><center>Chord Creation and Transposition</center></h1>
     <h2><center>Connor James Frugoli</center></h2>
     <h2><center>Select MIDI Input Device</center></h2>
     <div align="center">
@@ -15,6 +15,20 @@
     <h2><center>Select MIDI Output Device</center></h2>
     <div align="center">
       <select id="select-out"></select>
+    </div>
+    <h2><center>Select Your Transposition Amount</center></h2>
+    <div align="center">
+      <label for="transpoe-slider" id="transpose-display">Transposed by 0 semitones</label>
+      <input type="range" min="-12" max="12" id="transpose-slider" />
+    </div>
+    <!-- <div>
+      <h2><center>Select Your Chord Type</center></h2>
+      <div align="center">
+        <select id="chord-select"></select>
+      </div> -->
+    </div>
+    <div align="center">
+      <p>This is my MIDI Effect! You can transpose your notes easily and quickly with the provided slider. I was hoping to also do a chord creation, but I ran out of time and couldn't figure it out. Enjoy nonetheless!</p>
     </div>
   </body>
 </html>
