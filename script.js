@@ -28,7 +28,8 @@ chordSelect.addEventListener("change", function (quality) {
 const chordFunc = function (midiRoot, quality) {
   let chord = [midiRoot];
   let chordRoot = parseInt(midiRoot);
-  if (quality == "Major") {
+  if (quality == "No Chord") return chord;
+  else if (quality == "Major") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 7);
   } else if (quality == "Minor") {
@@ -71,7 +72,8 @@ const midiFunc = function (midiIn, transpose) {
   let pitch = midiIn.number;
   pitch += transpose;
   let transposedNote = new Note(pitch);
-  return transposedNote;
+  let transposedChord = chordFunc(transposedNote, chordSelect);
+  return transposedChord;
 };
 
 // MIDI input/output
