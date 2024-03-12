@@ -68,7 +68,7 @@ selectTranspose.addEventListener("change", function () {
 
 // Transposition Function
 const midiFunc = function (midiIn, transpose) {
-  let pitch = midiIn.note.number;
+  let pitch = midiIn.number;
   pitch += transpose;
   let transposedNote = new Note(pitch);
   return transposedNote;
@@ -82,21 +82,15 @@ selectIn.addEventListener("change", function () {
   userInput.removeListener("noteon");
   userInput.removeListener("noteoff");
   userInput = WebMidi.inputs[selectIn.value];
-  userOutput = WebMidi.outputs[0].channels[1];
+  userOutput = WebMidi.outputs[selectOut.value].channels[1];
   userInput.addListener("noteon", function (someMIDI) {
     userOutput.sendNoteOn(
-      chordFunc(
-        midiFunc(someMIDI.note, parseInt(selectTranspose.value)),
-        quality
-      )
+      midiFunc(someMIDI.note, parseInt(selectTranspose.value))
     );
   });
   userInput.addListener("noteoff", function (someMIDI) {
     userOutput.sendNoteOff(
-      chordFunc(
-        midiFunc(someMIDI.note, parseInt(selectTranspose.value)),
-        quality
-      )
+      midiFunc(someMIDI.note, parseInt(selectTranspose.value))
     );
   });
 });
