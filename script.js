@@ -22,46 +22,37 @@ WebMidi.outputs.forEach(function (output, num) {
 // Updating the chord selection
 chordSelect.addEventListener("change", function (quality) {
   quality = chordSelect.value;
-  console.log(chordSelect.value);
 });
 
 // Chord Type Selection
 const chordFunc = function (midiRoot, quality) {
-  let chord = [];
+  let chord = [midiRoot];
   let chordRoot = parseInt(midiRoot);
-  // let quality = document.getElementById("chord-select");
   if (quality == "Major") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 7);
-  }
-  if (quality == "Minor") {
+  } else if (quality == "Minor") {
     chord.push(chordRoot + 3);
     chord.push(chordRoot + 7);
-  }
-  if (quality == "Augmented") {
+  } else if (quality == "Augmented") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 8);
-  }
-  if (quality == "Diminished") {
+  } else if (quality == "Diminished") {
     chord.push(chordRoot + 3);
     chord.push(chordRoot + 6);
-  }
-  if (quality == "Major 7") {
+  } else if (quality == "Major 7") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 7);
     chord.push(chordRoot + 11);
-  }
-  if (quality == "Minor 7") {
+  } else if (quality == "Minor 7") {
     chord.push(chordRoot + 3);
     chord.push(chordRoot + 7);
     chord.push(chordRoot + 10);
-  }
-  if (quality == "Major Add 6") {
+  } else if (quality == "Major Add 6") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 7);
     chord.push(chordRoot + 9);
-  }
-  if (quality == "Major Sus 4") {
+  } else if (quality == "Major Sus 4") {
     chord.push(chordRoot + 5);
     chord.push(chordRoot + 7);
   }
@@ -94,12 +85,18 @@ selectIn.addEventListener("change", function () {
   userOutput = WebMidi.outputs[0].channels[1];
   userInput.addListener("noteon", function (someMIDI) {
     userOutput.sendNoteOn(
-      midiFunc(someMIDI.note, parseInt(selectTranspose.value))
+      chordFunc(
+        midiFunc(someMIDI.note, parseInt(selectTranspose.value)),
+        quality
+      )
     );
   });
   userInput.addListener("noteoff", function (someMIDI) {
     userOutput.sendNoteOff(
-      midiFunc(someMIDI.note, parseInt(selectTranspose.value))
+      chordFunc(
+        midiFunc(someMIDI.note, parseInt(selectTranspose.value)),
+        quality
+      )
     );
   });
 });
