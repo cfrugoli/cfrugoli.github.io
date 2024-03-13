@@ -6,7 +6,7 @@ let selectOut = document.getElementById("select-out");
 let userInput = WebMidi.inputs[0];
 let userOutput = WebMidi.outputs[0].channels[1];
 let selectTranspose = document.getElementById("transpose-slider");
-let quality = "Major";
+let quality = "No Chord";
 let chordSelect = document.getElementById("chord-select");
 
 // Input initialization
@@ -20,42 +20,52 @@ WebMidi.outputs.forEach(function (output, num) {
 });
 
 // Updating the chord selection
-chordSelect.addEventListener("change", function (quality) {
+chordSelect.addEventListener("change", function () {
   quality = chordSelect.value;
 });
 
 // Chord Type Selection
-const chordFunc = function (midiRoot, quality) {
-  let chord = [midiRoot];
+const chordFunc = function (midiRoot, chordQuality) {
   let chordRoot = parseInt(midiRoot);
-  if (quality == "No Chord") return chord;
-  else if (quality == "Major") {
+  let chord = [chordRoot];
+  if (chordQuality == "Major") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 7);
-  } else if (quality == "Minor") {
+  } else if (chordQuality == "Minor") {
     chord.push(chordRoot + 3);
     chord.push(chordRoot + 7);
-  } else if (quality == "Augmented") {
+  } else if (chordQuality == "Augmented") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 8);
-  } else if (quality == "Diminished") {
+  } else if (chordQuality == "Diminished") {
     chord.push(chordRoot + 3);
     chord.push(chordRoot + 6);
-  } else if (quality == "Major 7") {
+  } else if (chordQuality == "Major 7") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 7);
     chord.push(chordRoot + 11);
-  } else if (quality == "Minor 7") {
+  } else if (chordQuality == "Minor 7") {
     chord.push(chordRoot + 3);
     chord.push(chordRoot + 7);
     chord.push(chordRoot + 10);
-  } else if (quality == "Major Add 6") {
+  } else if (chordQuality == "Major Add 6") {
     chord.push(chordRoot + 4);
     chord.push(chordRoot + 7);
     chord.push(chordRoot + 9);
-  } else if (quality == "Major Sus 4") {
+  } else if (chordQuality == "Sus 4") {
     chord.push(chordRoot + 5);
     chord.push(chordRoot + 7);
+  } else if (chordQuality == "Sus 2") {
+    chord.push(chordRoot + 2);
+    chord.push(chordRoot + 7);
+  } else if (chordQuality == "Major Add 2") {
+    chord.push(chordRoot + 2);
+    chord.push(chordRoot + 4);
+    chord.push(chordRoot + 7);
+  } else if (chordQuality == "Minor Add 9") {
+    chord.push(chordRoot + 3);
+    chord.push(chordRoot + 7);
+    chord.push(chordRoot + 14);
   }
   return chord;
 };
@@ -71,8 +81,8 @@ selectTranspose.addEventListener("change", function () {
 const midiFunc = function (midiIn, transpose) {
   let pitch = midiIn.number;
   pitch += transpose;
-  let transposedNote = new Note(pitch);
-  let transposedChord = chordFunc(transposedNote, chordSelect);
+  let transposedNote = new Note(pitch).number;
+  let transposedChord = chordFunc(transposedNote, quality);
   return transposedChord;
 };
 
